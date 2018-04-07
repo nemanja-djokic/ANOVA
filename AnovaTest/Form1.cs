@@ -231,6 +231,9 @@ namespace AnovaTest
             ssaDivSstLabel.Text = ssaDivSst.ToString("0.0000") + " %";
             sseDivSstLabel.Text = sseDivSst.ToString("0.0000") + " %";
 
+            contrastDataGridView.RowsDefaultCellStyle.SelectionBackColor = Color.Transparent;
+            contrastTrustIntervalDataGridView.RowsDefaultCellStyle.SelectionBackColor = Color.Transparent;
+
             //*************************************************
 
             List<Alternative> alternativesList = new List<Alternative>();
@@ -275,7 +278,8 @@ namespace AnovaTest
                     contrastDataGridView.Rows[i].Cells[j].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     if (i == j)
                     {
-                        contrastDataGridView.Rows[i].Cells[j].Value = "X";
+                        //contrastDataGridView.Rows[i].Cells[j].Value = "X";
+                        contrastDataGridView.Rows[i].Cells[j].Style.BackColor = Color.Black;
                     }
                     else
                     {
@@ -324,13 +328,13 @@ namespace AnovaTest
                     contrastTrustIntervalDataGridView.Rows[i].Cells[j].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     if (i == j)
                     {
-                        contrastTrustIntervalDataGridView.Rows[i].Cells[j].Value = "X";
+                        //contrastTrustIntervalDataGridView.Rows[i].Cells[j].Value = "X";
+                        contrastTrustIntervalDataGridView.Rows[i].Cells[j].Style.BackColor = Color.Black;
                     }
                     else
                     {
                         double se = Math.Sqrt((double)seSquared);
                         double sc = se * Math.Sqrt(2.0f / (numberOfAlternatives * numberOfMeasurements));
-                        Console.WriteLine("SC " + sc.ToString());
                         double alphaHalf = 0.00;
                         if (probability90RadioButton.Checked)
                         {
@@ -356,6 +360,14 @@ namespace AnovaTest
                             numberOfAlternatives * (numberOfMeasurements - 1)) * sc;
                         contrastTrustIntervalDataGridView.Rows[i].Cells[j].Value
                             = "[" + lowerBound.ToString("0.0000") + " : " + upperBound.ToString("0.0000") + "]";
+                        if(lowerBound * upperBound < 0)
+                        {
+                            contrastTrustIntervalDataGridView.Rows[i].Cells[j].Style.BackColor = Color.LightGreen;
+                        }
+                        else
+                        {
+                            contrastTrustIntervalDataGridView.Rows[i].Cells[j].Style.BackColor = Color.PaleVioletRed;
+                        }
                     }
                 }
             }
